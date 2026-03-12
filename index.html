@@ -16,10 +16,19 @@
     <!-- CRT Flicker -->
     <div class="crt-flicker"></div>
 
+    <!-- Audio Player -->
+    <audio id="bg-music" loop preload="auto" muted>
+        <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-brand" data-text="[AS]">[AS]</div>
         <div class="nav-links">
+            <button id="music-toggle" class="music-toggle" title="Toggle Music">
+                <span class="music-icon">🎵</span>
+                <span class="music-status">PLAY</span>
+            </button>
             <a href="#about" class="glitch-link" data-text="ABOUT">ABOUT</a>
             <a href="#work" class="glitch-link" data-text="WORK">WORK</a>
             <a href="#contact" class="glitch-link" data-text="CONTACT">CONTACT</a>

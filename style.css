@@ -163,6 +163,53 @@ body {
     opacity: 0.8;
 }
 
+/* Music Toggle */
+.music-toggle {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s;
+    letter-spacing: 0.05em;
+    padding: 0;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .music-toggle { font-size: 0.85rem; }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .music-toggle { font-size: 0.9rem; letter-spacing: 0.1em; }
+}
+
+.music-toggle:hover {
+    color: var(--neon-pink);
+}
+
+.music-toggle .music-icon {
+    font-size: 14px;
+}
+
+.music-toggle.playing {
+    color: var(--neon-cyan);
+}
+
+.music-toggle.playing .music-icon {
+    animation: music-note 1s infinite;
+}
+
+@keyframes music-note {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
 /* ============================================
    HERO SECTION - MOBILE FIRST
    ============================================ */

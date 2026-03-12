@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTiltEffect();
     initTerminalEffect();
     initGlitchIntensity();
+    initMusicPlayer();
 });
 
 // ============================================
@@ -123,6 +124,95 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// ============================================
+// MUSIC PLAYER
+// ============================================
+
+function initMusicPlayer() {
+    const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('music-toggle');
+    const musicIcon = toggleBtn.querySelector('.music-icon');
+    const musicStatus = toggleBtn.querySelector('.music-status');
+    
+    if (!music || !toggleBtn) return;
+    
+    // Set initial volume (will be unmuted after autoplay)
+    music.volume = 0.3;
+    
+    // Set initial UI state to PLAY (not muted)
+    updateMusicUI(false);
+    
+    // Try to autoplay on page load - multiple attempts
+    const attemptAutoplay = () => {
+        const playPromise = music.play();
+        
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    // Autoplay worked! Unmute the audio
+                    music.muted = false;
+                    updateMusicUI(true);
+                })
+                .catch(() => {
+                    // Autoplay was blocked - try again after user interaction
+                    console.log('Autoplay blocked - waiting for user interaction');
+                    updateMusicUI(false);
+                });
+        }
+    };
+    
+    // Try autoplay immediately
+    attemptAutoplay();
+    
+    // Try again after a short delay
+    setTimeout(attemptAutoplay, 1500);
+    
+    // Try again after another delay
+    setTimeout(attemptAutoplay, 3000);
+    
+    // Listen for any user interaction to trigger autoplay
+    const handleUserInteraction = () => {
+        if (music.paused) {
+            music.muted = false;
+            music.play().then(() => {
+                updateMusicUI(true);
+            }).catch(() => {});
+        }
+        // Remove listeners after first interaction
+        document.removeEventListener('click', handleUserInteraction);
+        document.removeEventListener('keydown', handleUserInteraction);
+        document.removeEventListener('scroll', handleUserInteraction);
+    };
+    
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+    document.addEventListener('scroll', handleUserInteraction);
+    
+    // Toggle button click handler
+    toggleBtn.addEventListener('click', () => {
+        if (music.paused) {
+            music.muted = false;
+            music.play();
+            updateMusicUI(true);
+        } else {
+            music.pause();
+            updateMusicUI(false);
+        }
+    });
+    
+    function updateMusicUI(isPlaying) {
+        if (isPlaying) {
+            musicIcon.textContent = '🎵';
+            musicStatus.textContent = 'SYNTHWAVE';
+            toggleBtn.classList.add('playing');
+        } else {
+            musicIcon.textContent = '🎵';
+            musicStatus.textContent = 'PLAY';
+            toggleBtn.classList.remove('playing');
+        }
+    }
+}
 
 // ============================================
 // CONSOLE EASTER EGG
